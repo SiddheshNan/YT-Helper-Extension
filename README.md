@@ -1,4 +1,4 @@
-# YouTube Hardware Media Keys Support
+# YouTube Hardware Media Keys Support - Chrome Extension
 ### Use Hardware Media Keys (Fn F11/F12) for Next/Previous Videos in Playlists
 
 Refrences:
