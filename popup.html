@@ -8,8 +8,7 @@
       type="text/css"
     />
     <style>
-    
-    html,
+      html,
       body {
         font-family: "Open Sans", sans-serif;
         font-size: 14px;
@@ -88,51 +87,55 @@
         color: #2f5876;
       }
 
-
       button {
-      text-decoration: none;
-      display: inline-block;
-      padding: 8px 16px;
-    }
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+      }
 
-    button:hover {
-    background-color: #ddd;
-    color: black;
-  }
+      button:hover {
+        background-color: #ddd;
+        color: black;
+      }
 
-  .btn {
-    background-color: #4CAF50;
-    color: white;
-  }
-
-
+      .btn {
+        background-color: #4caf50;
+        color: white;
+      }
+      .textcenter {
+        text-align: center;
+      }
     </style>
     <script src="popup.js"></script>
   </head>
 
   <body>
-
     <div class="modal-header">
       <h1 class="logo">
-         YT Hardware Media Keys
+        YT Hardware Media Keys
         <span class="version">(1.0.0)</span>
       </h1>
     </div>
-    <div class="modal-content">
-      <p>Use Hardware Media Keys (F11/F12) for Next/Previous Videos  playlists</p>
+    <div class="modal-content textcenter">
+      <p>
+        Use Hardware Media Keys (Fn F11/F12) for Next/Previous Videos in Playlists
+      </p>
     </div>
+    <p
+      id="videoTitle"
+      style="padding-left: 18px; padding-right: 18px"
+      class="textcenter"
+    >
+      Video Title Loading...
+    </p>
     <div class="modal-icons">
       <div class="flex-container">
-  
-          <button id="prev" class="btn">&#8249;</button>
-     
-          <button id="pausePlay" class="btn">Play/Pause</button>
-      
-          <button id="next" class="btn">&#8250;</button>
-        </div>
+        <button id="prev" class="btn">&#8249;</button>
+
+        <button id="pausePlay" class="btn">Play/Pause</button>
+
+        <button id="next" class="btn">&#8250;</button>
       </div>
     </div>
-
-
   </body>
 </html>

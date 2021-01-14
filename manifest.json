@@ -1,20 +1,18 @@
 {
   "manifest_version": 2,
 
-  "name": "Youtube Media Keys",
-  "description": "Youtube Hardware Media Keys Support for next and previous video",
+  "name": "YouTube Hardware Media Keys Support",
+  "description": "YouTube Hardware Media Keys Support for Next/Previous Videos in Playlists",
+
   "version": "1.0.0",
   "icons": { "128": "icon_128.jpg" },
-
 
   "browser_action": {
     "default_icon": "icon.jpg",
     "default_popup": "popup.html"
   },
 
-
   "permissions": ["activeTab", "tabs"],
-
 
   "content_scripts": [
     {
