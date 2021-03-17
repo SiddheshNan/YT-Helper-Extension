@@ -67,12 +67,12 @@ const playlistWatchPage = async () => {
 
   const APIKEY = "";
 
-  const _apicall = await fetch(
+  const api_call = await fetch(
     `https://yt-helpers.siddhesh.workers.dev/playlist/get_time?key=${APIKEY}&playlist_id=${playlist_id}`
   );
-  const _apidata = await _apicall.json();
+  const api_data = await api_call.json();
 
-  if (!_apidata.playlist_duration) return;
+  if (!api_data.playlist_duration) return;
 
   const containr = document
     .getElementById("header-description")
@@ -87,7 +87,7 @@ const playlistWatchPage = async () => {
   durationElement.style.marginTop = "0.58rem";
   durationElement.style.marginBottom = "0.6rem";
 
-  durationElement.innerHTML = `<span style='color: var(--yt-spec-text-primary);'>Playlist Duration: <span style='color: #5896fd;'>${_apidata.playlist_duration}</span></span>`;
+  durationElement.innerHTML = `<span style='color: var(--yt-spec-text-primary);'>Playlist Duration: <span style='color: #5896fd;'>${api_data.playlist_duration}</span></span>`;
 
   containr.appendChild(durationElement);
 };
@@ -108,13 +108,15 @@ const channelVideosPage = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const isSort = urlParams.get("sort");
 
-
-
   sortMenu.innerHTML = `
   <select name="sortByVidSelector" id="sortByVidSelector">
-    <option value="dd" ${isSort == 'dd' && 'selected'}>Date Added (newest)</option>
-    <option value="da" ${isSort == 'da' && 'selected'}>Date Added (oldest)</option>
-    <option value="p" ${isSort == 'p' && 'selected'}>Most Popular</option>
+    <option value="dd" ${
+      isSort == "dd" && "selected"
+    }>Date Added (newest)</option>
+    <option value="da" ${
+      isSort == "da" && "selected"
+    }>Date Added (oldest)</option>
+    <option value="p" ${isSort == "p" && "selected"}>Most Popular</option>
   </select>`;
 
   document
