@@ -1,23 +1,26 @@
 {
   "manifest_version": 2,
 
-  "name": "YouTube Hardware Media Keys Support",
-  "description": "YouTube Hardware Media Keys Support for Next/Previous Videos in Playlists",
+  "name": "YouTube Helpers Collection",
+  "description": "Bunch of Helpers Collection to make YouTube a bit better",
+  "short_name": "YT Helpers Collection",
 
-  "version": "1.0.0",
-  "icons": { "128": "icon_128.jpg" },
+  "version": "0.0.1",
+  "icons": { "128": "icons/icon_128.jpg" },
 
-  "browser_action": {
-    "default_icon": "icon.jpg",
-    "default_popup": "popup.html"
+  
+  "page_action": {
+    "default_icon": "icons/icon.jpg",
+    "default_title": "YT Helpers Collection"
   },
 
-  "permissions": ["activeTab", "tabs"],
+  "permissions": ["activeTab", "tabs", "https://*.youtube.com/*"],
 
   "content_scripts": [
     {
-      "matches": ["https://*.youtube.com/watch*"],
-      "js": ["injected.js"]
+      "matches": ["https://*.youtube.com/*"],
+      "run_at": "document_idle",
+      "js": ["injected.js", "helpers.js"]
     }
   ]
 }
