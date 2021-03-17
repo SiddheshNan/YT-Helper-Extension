@@ -6,20 +6,12 @@ document.addEventListener(
     if (type === "single_video_watch" || type == "playlist_watch")
       addMediaKeys();
 
-    if (type === "playlist_overview" || type == "playlist_watch") {
-      main();
-    }
+    playlistLogic();
   },
   false
 );
 
-// Start extension script
-main();
-
-// Functions
-function main() {
-  playlistLogic();
-}
+playlistLogic();
 
 async function playlistLogic() {
   let interval = setInterval(async () => {
@@ -33,41 +25,14 @@ async function playlistLogic() {
       );
       if (videos.length > 0) parent = videos[0].parentElement;
       else return;
-    } else if (pageType === "playlist_watch") {
-      cclearInterval(interval);
-      
-      const urlParams = new URLSearchParams(window.location.search);
-      const playlist_id = urlParams.get("list");
-
-      const APIKEY = "";
-
-      const _apicall = await fetch(
-        `https://yt-helpers.siddhesh.workers.dev/playlist/get_time?key=${APIKEY}&playlist_id=${playlist_id}`
-      );
-      const _apidata = await _apicall.json();
-
-      if (!_apidata.playlist_duration) return;
-
-      const containr = document
-        .getElementById("header-description")
-        .querySelector("h3");
-
-      if (containr.childElementCount > 1)
-        containr.removeChild(containr.lastChild);
-
-      let durationElement = document.createElement("div");
-      durationElement.className = "playlistTotalDuration";
-      durationElement.style.fontSize = "1.4rem";
-      durationElement.style.fontWeight = 500;
-      durationElement.style.marginTop = "0.58rem";
-      durationElement.style.marginBottom = "0.6rem";
-
-      durationElement.innerHTML = `<span style='color: var(--yt-spec-text-primary);'>Playlist Duration: <span style='color: #5896fd;'>${_apidata.playlist_duration}</span></span>`;
-
-      containr.appendChild(durationElement);
+    } else {
       clearInterval(interval);
+
+      if (pageType == "playlist_watch") playlistWatchPage();
+      else if (pageType == "channel_videos_list") channelVideosPage();
+
       return;
-    } else return;
+    }
 
     let playlistLength = getPlaylistLength(pageType);
 
@@ -100,7 +65,6 @@ async function playlistLogic() {
   }, 1000);
 }
 
-//-------------------------------------------------------------
 function getPlaylistLength(pageType) {
   let playlistLength = 0;
 
