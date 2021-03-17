@@ -34,7 +34,8 @@ async function playlistLogic() {
       if (videos.length > 0) parent = videos[0].parentElement;
       else return;
     } else if (pageType === "playlist_watch") {
-      console.warn("playlist_watch");
+      cclearInterval(interval);
+      
       const urlParams = new URLSearchParams(window.location.search);
       const playlist_id = urlParams.get("list");
 
