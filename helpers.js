@@ -65,6 +65,12 @@ const playlistWatchPage = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const playlist_id = urlParams.get("list");
 
+  const old_ref = document.getElementById("playlistTotalDuration");
+  
+  if (old_ref) {
+    if (old_ref.getAttribute("playlist_id") == playlist_id) return;
+  }
+
   const APIKEY = "";
 
   const api_call = await fetch(
@@ -81,7 +87,11 @@ const playlistWatchPage = async () => {
   if (containr.childElementCount > 1) containr.removeChild(containr.lastChild);
 
   let durationElement = document.createElement("div");
+  durationElement.setAttribute("id", "playlistTotalDuration");
+  durationElement.setAttribute("playlist_id", playlist_id);
+
   durationElement.className = "playlistTotalDuration";
+
   durationElement.style.fontSize = "1.4rem";
   durationElement.style.fontWeight = 500;
   durationElement.style.marginTop = "0.58rem";

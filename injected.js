@@ -3,8 +3,10 @@ document.addEventListener(
   function navFinish() {
     const type = getPageType();
 
-    if (type === "single_video_watch" || type == "playlist_watch")
+    if (type === "single_video_watch" || type == "playlist_watch") {
+      addYearDateToVideo();
       addMediaKeys();
+    }
 
     playlistLogic();
   },
@@ -28,8 +30,11 @@ async function playlistLogic() {
     } else {
       clearInterval(interval);
 
-      if (pageType == "playlist_watch") playlistWatchPage();
-      else if (pageType == "channel_videos_list") channelVideosPage();
+      if (pageType == "playlist_watch") {
+        playlistWatchPage();
+        addYearDateToVideo();
+      } else if (pageType == "channel_videos_list") channelVideosPage();
+      else if (pageType == "single_video_watch") addYearDateToVideo();
 
       return;
     }
@@ -175,4 +180,43 @@ const addMediaKeys = () => {
       navigator.mediaSession.setActionHandler("nexttrack", nextVideo);
     }, 3000);
   }
+};
+
+function monthDiff(d1, d2) {
+  var months;
+  months = (d2.getFullYear() - d1.getFullYear()) * 12;
+  months -= d1.getMonth();
+  months += d2.getMonth();
+  return months <= 0 ? 0 : months;
+}
+
+const addYearDateToVideo = () => {
+  const dateEle = document.getElementById("date");
+
+  if (dateEle.lastChild.id == "yearAgoDate") {
+    dateEle.removeChild(dateEle.lastChild);
+  }
+
+  const videoDate = dateEle.querySelector("yt-formatted-string").innerText;
+
+  const d1 = new Date();
+  const d2 = new Date(videoDate);
+
+  let monthsBetwn = monthDiff(d2, d1);
+
+  let outStr = "";
+
+  if (monthsBetwn > 12) {
+    outStr = `${(monthsBetwn / 12).toFixed(0)} years ${(monthsBetwn % 12).toFixed(0)} months ago`;
+  } else {
+    outStr = `${monthsBetwn} months ago`;
+  }
+
+  const ele = document.createElement("span");
+  ele.setAttribute("id", "yearAgoDate");
+
+  ele.setAttribute("class", "style-scope ytd-video-primary-info-renderer");
+  ele.textContent = ` • ${outStr}`;
+
+  document.getElementById("date").appendChild(ele);
 };
