@@ -190,6 +190,11 @@ function monthDiff(d1, d2) {
   return months <= 0 ? 0 : months;
 }
 
+const getS = (num) => {
+  if (num > 1) return "s";
+  else return "";
+};
+
 const addYearDateToVideo = () => {
   const dateEle = document.getElementById("date");
 
@@ -206,17 +211,23 @@ const addYearDateToVideo = () => {
 
   let outStr = "";
 
-  if (monthsBetwn > 12) {
-    outStr = `${(monthsBetwn / 12).toFixed(0)} years ${(monthsBetwn % 12).toFixed(0)} months ago`;
+  if (monthsBetwn >= 12) {
+    const months = (monthsBetwn % 12).toFixed(0);
+    const years = (monthsBetwn / 12).toFixed(0);
+
+    outStr = `${years} year${getS(years)} ${
+      months > 0 ? months + ` month${getS(months)}` : ""
+    } ago`;
   } else {
-    outStr = `${monthsBetwn} months ago`;
+    outStr =
+      monthsBetwn > 0 ? monthsBetwn + ` month${getS(monthsBetwn)} ago` : "";
   }
 
   const ele = document.createElement("span");
   ele.setAttribute("id", "yearAgoDate");
 
   ele.setAttribute("class", "style-scope ytd-video-primary-info-renderer");
-  ele.textContent = ` • ${outStr}`;
+  ele.textContent = outStr && ` • ${outStr}`;
 
   document.getElementById("date").appendChild(ele);
 };
