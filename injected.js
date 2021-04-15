@@ -175,9 +175,10 @@ const addMediaKeys = () => {
     navigator.mediaSession.setActionHandler("previoustrack", prevVideo);
     navigator.mediaSession.setActionHandler("nexttrack", nextVideo);
 
-    setInterval(() => {
+    let inter_vl = setInterval(() => {
       navigator.mediaSession.setActionHandler("previoustrack", prevVideo);
       navigator.mediaSession.setActionHandler("nexttrack", nextVideo);
+      clearInterval(inter_vl);
     }, 3000);
   }
 };
@@ -213,7 +214,8 @@ const addYearDateToVideo = () => {
 
   if (monthsBetwn >= 12) {
     const months = (monthsBetwn % 12).toFixed(0);
-    const years = (monthsBetwn / 12).toFixed(0);
+    let years = (monthsBetwn / 12).toFixed(0);
+    if (years > 1) years -= 1;
 
     outStr = `${years} year${getS(years)} ${
       months > 0 ? months + ` month${getS(months)}` : ""
