@@ -183,12 +183,17 @@ const addMediaKeys = () => {
   }
 };
 
-function monthDiff(d1, d2) {
-  var months;
-  months = (d2.getFullYear() - d1.getFullYear()) * 12;
-  months -= d1.getMonth();
-  months += d2.getMonth();
-  return months <= 0 ? 0 : months;
+function timeDiff(df, dt) {
+  // let allMonths =
+  //   dt.getMonth() - df.getMonth() + 12 * (dt.getFullYear() - df.getFullYear());
+  let allYears = dt.getFullYear() - df.getFullYear();
+  let partialMonths = dt.getMonth() - df.getMonth();
+  if (partialMonths < 0) {
+    allYears--;
+    partialMonths = partialMonths + 12;
+  }
+
+  return { allYears, partialMonths };
 }
 
 const getS = (num) => {
@@ -208,21 +213,19 @@ const addYearDateToVideo = () => {
   const d1 = new Date();
   const d2 = new Date(videoDate);
 
-  let monthsBetwn = monthDiff(d2, d1);
+  let { allYears, partialMonths } = timeDiff(d2, d1);
 
   let outStr = "";
 
-  if (monthsBetwn >= 12) {
-    const months = (monthsBetwn % 12).toFixed(0);
-    let years = (monthsBetwn / 12).toFixed(0);
-    if (years > 1) years -= 1;
-
-    outStr = `${years} year${getS(years)} ${
-      months > 0 ? months + ` month${getS(months)}` : ""
+  if (allYears > 0) {
+    outStr = `${allYears} year${getS(allYears)} ${
+      partialMonths > 0 ? partialMonths + ` month${getS(partialMonths)}` : ""
     } ago`;
   } else {
     outStr =
-      monthsBetwn > 0 ? monthsBetwn + ` month${getS(monthsBetwn)} ago` : "";
+      partialMonths > 0
+        ? partialMonths + ` month${getS(partialMonths)} ago`
+        : "";
   }
 
   const ele = document.createElement("span");
