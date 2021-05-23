@@ -1,6 +1,10 @@
+// run on main pageload
+window.onload = () => onStart();
+
+// run on page navigatation change on youtube spf
 document.addEventListener(
   "yt-navigate-finish",
-  function navFinish() {
+  () => {
     const type = getPageType();
 
     if (type === "single_video_watch" || type == "playlist_watch") {
@@ -8,14 +12,12 @@ document.addEventListener(
       addMediaKeys();
     }
 
-    playlistLogic();
+    onStart();
   },
   false
 );
 
-playlistLogic();
-
-async function playlistLogic() {
+async function onStart() {
   let interval = setInterval(async () => {
     let videos = [];
     let pageType = getPageType();
@@ -25,6 +27,7 @@ async function playlistLogic() {
       videos = Array.from(
         document.querySelectorAll("ytd-playlist-video-renderer")
       );
+
       if (videos.length > 0) parent = videos[0].parentElement;
       else return;
     } else {
@@ -92,9 +95,11 @@ function createDurationElement(videos) {
   durationElement.style.fontWeight = 500;
   durationElement.style.color = "var(--google-blue-500)";
 
-  durationElement.innerHTML = `<span style='color: var(--yt-spec-text-primary);'>Playlist Duration (1-${
-    videos.length
-  }):</span> ${calculateDuration(videos)}.`;
+  durationElement.innerHTML = `
+  <span style='color: var(--yt-spec-text-primary);'>
+    Playlist Duration (1-${videos.length}):</span> ${calculateDuration(
+    videos
+  )}.`;
 
   let currentDurationElement = parentElement.querySelector(
     ".playlistTotalDuration"
@@ -126,6 +131,7 @@ function getPlaylistParentElement() {
 }
 
 const addMediaKeys = () => {
+  // send shift + n keystroke for next video
   const nextVideo = () => {
     document.dispatchEvent(
       new KeyboardEvent("keydown", {
@@ -204,7 +210,7 @@ const getS = (num) => {
 const addYearDateToVideo = () => {
   const dateEle = document.getElementById("date");
 
-  if (dateEle.lastChild.id == "yearAgoDate") {
+  if (dateEle.lastChild?.id === "yearAgoDate") {
     dateEle.removeChild(dateEle.lastChild);
   }
 
@@ -234,5 +240,5 @@ const addYearDateToVideo = () => {
   ele.setAttribute("class", "style-scope ytd-video-primary-info-renderer");
   ele.textContent = outStr && ` • ${outStr}`;
 
-  document.getElementById("date").appendChild(ele);
+  dateEle.appendChild(ele);
 };
