@@ -208,7 +208,7 @@ const getS = (num) => {
 };
 
 const addYearDateToVideo = () => {
-  const dateEle = document.getElementById("date");
+  const dateEle = document.getElementById("info-strings");
 
   if (dateEle.lastChild?.id === "yearAgoDate") {
     dateEle.removeChild(dateEle.lastChild);
