@@ -67,8 +67,8 @@ const playlistWatchPage = async () => {
 
   const old_ref = document.getElementById("playlistTotalDuration");
   
-  if (old_ref) {
-    if (old_ref.getAttribute("playlist_id") == playlist_id) return;
+  if (old_ref && old_ref.getAttribute("playlist_id") == playlist_id) {
+      return;
   }
 
   const APIKEY = "";
@@ -102,17 +102,11 @@ const playlistWatchPage = async () => {
   containr.appendChild(durationElement);
 };
 
-// const onChangeSortByVid = () => {
-//   const val = document.getElementById("sortByVidSelector").value;
-
-// };
 
 const channelVideosPage = async () => {
-  const type = getPageType();
-  if (type != "channel_videos_list") return;
 
   const sortMenu = document.getElementById("sort-menu");
-
+  
   if (sortMenu.hasChildNodes()) return;
 
   const urlParams = new URLSearchParams(window.location.search);

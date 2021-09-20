@@ -1,17 +1,22 @@
 // run on main pageload
-window.onload = () => onStart();
+window.onload = () => run();
+
+window.addEventListener("DOMContentLoaded", (event) => {
+  run();
+});
+
+window.onfocus = () => {
+  run();
+};
+
+const run = () => {
+  setTimeout(() => onStart(), 500);
+};
 
 // run on page navigatation change on youtube spf
 document.addEventListener(
   "yt-navigate-finish",
   () => {
-    const type = getPageType();
-
-    if (type === "single_video_watch" || type == "playlist_watch") {
-      addYearDateToVideo();
-      addMediaKeys();
-    }
-
     onStart();
   },
   false
@@ -36,8 +41,15 @@ async function onStart() {
       if (pageType == "playlist_watch") {
         playlistWatchPage();
         addYearDateToVideo();
-      } else if (pageType == "channel_videos_list") channelVideosPage();
-      else if (pageType == "single_video_watch") addYearDateToVideo();
+        setAbbrivatedViewCount();
+        addMediaKeys();
+      } else if (pageType == "channel_videos_list") {
+        channelVideosPage();
+      } else if (pageType == "single_video_watch") {
+        addYearDateToVideo();
+        addMediaKeys();
+        setAbbrivatedViewCount();
+      }
 
       return;
     }
@@ -203,8 +215,7 @@ function timeDiff(df, dt) {
 }
 
 const getS = (num) => {
-  if (num > 1) return "s";
-  else return "";
+  return num > 1 ? "s" : "";
 };
 
 const addYearDateToVideo = () => {
@@ -241,4 +252,9 @@ const addYearDateToVideo = () => {
   ele.textContent = outStr && ` • ${outStr}`;
 
   dateEle.appendChild(ele);
+};
+
+const setAbbrivatedViewCount = () => {
+  document.getElementsByClassName("view-count")[0].innerText =
+    document.getElementsByClassName("short-view-count")[0].innerText;
 };
